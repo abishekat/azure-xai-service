@@ -16,29 +16,7 @@ stages:
         pool:
           vmImage: ubuntu-latest
         steps:
-          - task: Docker@2
-            displayName: Build an image
-            inputs:
-              command: build
-              dockerfile: '$(Build.SourcesDirectory)/backend/central/Dockerfile'
-              tags: |
-                $(tag)
-          
-          - task: AzureCLI@2
-            displayName: Authenticate with Azure Container Registry
-            inputs:
-              azureSubscription: 'd143290a-4d5b-41d1-9223-a02a18155031'  # Replace with the name of your Azure subscription service connection
-              scriptType: bash
-              scriptLocation: inlineScript
-              inlineScript: |
-                az acr login --name backendcentral.azurecr.io
+          - script: echo $(mySecretVariable)
+            displayName: Echo message
 
-
-          - task: Docker@2
-            displayName: Push image to Azure Container Registry
-            inputs:
-              command: push
-              containerRegistry: 'backendcentral.azurecr.io'
-              repository: 'backendcentral'
-              tags: |
-                $(tag)
+          # Add more steps as needed
