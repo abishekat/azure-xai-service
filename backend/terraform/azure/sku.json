@@ -1,0 +1,226 @@
+[
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:21.08.30",
+    "version": "21.08.30"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:21.10.21",
+    "version": "21.10.21"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:21.11.04",
+    "version": "21.11.04"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:22.04.05",
+    "version": "22.04.05"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:22.04.27",
+    "version": "22.04.27"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:22.05.11",
+    "version": "22.05.11"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:22.06.10",
+    "version": "22.06.10"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:22.07.08",
+    "version": "22.07.08"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:22.07.19",
+    "version": "22.07.19"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:22.08.11",
+    "version": "22.08.11"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:22.09.14",
+    "version": "22.09.14"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:22.11.25",
+    "version": "22.11.25"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:23.01.06",
+    "version": "23.01.06"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004:23.04.24",
+    "version": "23.04.24"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:21.08.30",
+    "version": "21.08.30"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:21.10.21",
+    "version": "21.10.21"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:21.11.04",
+    "version": "21.11.04"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:22.04.05",
+    "version": "22.04.05"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:22.04.27",
+    "version": "22.04.27"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:22.05.11",
+    "version": "22.05.11"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:22.06.10",
+    "version": "22.06.10"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:22.07.08",
+    "version": "22.07.08"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:22.07.19",
+    "version": "22.07.19"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:22.08.11",
+    "version": "22.08.11"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:22.09.14",
+    "version": "22.09.14"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:22.11.25",
+    "version": "22.11.25"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:23.01.06",
+    "version": "23.01.06"
+  },
+  {
+    "architecture": "x64",
+    "offer": "ubuntu-2004",
+    "publisher": "microsoft-dsvm",
+    "sku": "2004-gen2",
+    "urn": "microsoft-dsvm:ubuntu-2004:2004-gen2:23.04.24",
+    "version": "23.04.24"
+  }
+]

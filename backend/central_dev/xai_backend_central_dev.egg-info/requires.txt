@@ -1,0 +1,9 @@
+tinydb
+python-dotenv
+Flask>=2.2
+flask-cors
+pymongo
+codecarbon
+torch
+torchvision
+torchaudio
