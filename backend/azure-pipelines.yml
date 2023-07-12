@@ -1,11 +1,8 @@
 trigger:
   - main
 
-resources:
-  - repo: self
-
 variables:
-  tag: '$(Build.BuildId)'
+  secretVariable: $(mySecretVariable)  # Reference the secret variable using the $(variableName) syntax
 
 stages:
   - stage: Build
@@ -16,7 +13,7 @@ stages:
         pool:
           vmImage: ubuntu-latest
         steps:
-          - script: echo $(mySecretVariable)
-            displayName: Echo message
+          - script: echo $(secretVariable)  # Use the secret variable in a script step
+            displayName: Echo secret variable
 
           # Add more steps as needed
