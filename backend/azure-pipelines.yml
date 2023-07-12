@@ -2,7 +2,7 @@ trigger:
   - main
 
 variables:
-  secretVariable: $(mySecretVariable)  # Reference the secret variable using the $(variableName) syntax
+  secretVariable: $(sv)  # Reference the secret variable using the $(variableName) syntax
 
 stages:
   - stage: Build
