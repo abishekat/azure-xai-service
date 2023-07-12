@@ -1,9 +1,6 @@
 trigger:
   - main
 
-variables:
-  secretVariable: $(sv)  # Reference the secret variable using the $(variableName) syntax
-
 stages:
   - stage: Build
     displayName: Build image
@@ -13,7 +10,7 @@ stages:
         pool:
           vmImage: ubuntu-latest
         steps:
-          - script: echo $(secretVariable)  # Use the secret variable in a script step
+          - script: echo $(sv)  # Use the secret variable in a script step
             displayName: Echo secret variable
 
           # Add more steps as needed
