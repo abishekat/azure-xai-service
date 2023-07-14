@@ -1,3 +1,16 @@
+variable "azure_client_id" {
+  description = "Username for the Docker container"
+}
+
+variable "azure_password" {
+  description = "Password for the Docker container"
+}
+
+variable "azure_tenant_id" {
+  description = "Password for the Docker container"
+}
+
+
 resource "azurerm_virtual_network" "xai" {
   name                = "aci-xai-vnet"
   address_space       = ["10.0.0.0/16"]
@@ -91,6 +104,7 @@ resource "azurerm_virtual_machine" "xai" {
     computer_name  = "aci-xai-vm"
     admin_username = "adminuser"
     admin_password = "Password1234!"
+    custom_data = base64encode(data.template_file.custom_script.rendered)
   }
 
   os_profile_linux_config {
@@ -102,8 +116,15 @@ resource "azurerm_virtual_machine" "xai" {
   tags = {
     environment = "production"
   }
+}
 
-  provisioner "local-exec" {
-  command = "docker login gradcam.azurecr.io --username gradcam --password OGA3xkkR07t0NEYrVB0sn7m59ww8t10cVVtGDi2ue3+ACRDw2laT && docker run -d -p 5003:5003 gradcam.azurecr.io/gradcam"
- }
+data "template_file" "custom_script" {
+  template = <<-SCRIPT
+    #!/bin/bash
+
+    # Add your custom script commands here
+    # For example:
+    az login --service-principal --username ${var.azure_client_id} --password ${var.azure_password} --tenant ${var.azure_tenant_id}
+
+    SCRIPT
 }
