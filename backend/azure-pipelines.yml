@@ -1,16 +1,80 @@
-trigger:
-  - main
+version: 0.2
 
-stages:
-  - stage: Build
-    displayName: Build image
-    jobs:
-      - job: Build
-        displayName: Build
-        pool:
-          vmImage: ubuntu-latest
-        steps:
-          - script: echo $(sv)  # Use the secret variable in a script step
-            displayName: Echo secret variable
+phases:
+  install:
+    commands:
+      - echo "Installing terraform"
+      # Install Terraform
+      - curl -O https://releases.hashicorp.com/terraform/1.5.2/terraform_1.5.2_linux_amd64.zip
+      - unzip terraform_1.5.2_linux_amd64.zip
+      - sudo mv terraform /usr/local/bin/
+      - terraform version
 
-          # Add more steps as needed
+      # Install Azure CLI
+      - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      - az version
+      - az login --service-principal --username fea35a70-bfdd-4f07-a973-db574628886a --password PMo8Q~6cLxuGgY1L~j34pGM4HfrT92wcld4zmbgi --tenant 443731de-936c-4ced-86c9-4b34cf0111af
+
+      # Adding mongo connection string
+      - cd backend
+      - MONGO_CONN_STR=$(aws ssm get-parameter --name mongo-dev --with-decryption --query "Parameter.Value" --output text)
+      - echo "$MONGO_CONN_STR" > mongo.dev.conf
+
+      # Adding azure connection string
+      - cd central
+      - mkdir -p central_storage/tmp
+      - cd central_storage/tmp
+      - CONN_STR=$(aws ssm get-parameter --name azure-con-str --with-decryption --query "Parameter.Value" --output text)
+      - echo "$CONN_STR" > az_blob_connection_str.json
+      - cd ../../../db_service/azure_blob
+      - mkdir -p azure_blob_storage/tmp
+      - cd azure_blob_storage/tmp
+      - echo "$CONN_STR" > az_blob_connection_str.json
+      - cd ../../../../
+      - cd model_service/azure_cog
+      - mkdir -p azure_cog_storage/tmp
+      - cd azure_cog_storage/tmp
+      - echo "$CONN_STR" > api.conf.json
+      - cat api.conf.json
+      - ls
+      - cd ../../../../
+
+  pre_build:
+    commands:
+      - echo "Executing pre-build commands..."
+      - az acr repository create --name xaicontainerregistry
+      - az acr repository show --name xaicontainerregistry --repository backendcentral || az acr repository create --name xaicontainerregistry --name backendcentral
+      - az acr repository show --name xaicontainerregistry --repository backendrestnet50 || az acr repository create --name xaicontainerregistry --name backendrestnet50
+      - az acr repository show --name xaicontainerregistry --repository backendgradcam || az acr repository create --name xaicontainerregistry --name backendgradcam
+      - az acr repository show --name xaicontainerregistry --repository backendevaluationservice || az acr repository create --name xaicontainerregistry --name backendevaluationservice
+      - az acr repository show --name xaicontainerregistry --repository backendazurecog || az acr repository create --name xaicontainerregistry --name backendazurecog
+      - az acr repository show --name xaicontainerregistry --repository backendazureblob || az acr repository create --name xaicontainerregistry --name backendazureblob
+
+      # Docker login
+      - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+      - - az acr login --name xaicontainerregistry
+
+  build:
+    commands:
+      - echo "Building the project..."
+      # Remove existing image in the repository if exists
+      - az acr repository delete --name xaicontainerregistry --repository backendcentral:latest --yes --output none || true
+      - az acr repository delete --name xaicontainerregistry --repository backendrestnet50:latest --yes --output none || true
+      - az acr repository delete --name xaicontainerregistry --repository backendgradcam:latest --yes --output none || true
+      - az acr repository delete --name xaicontainerregistry --repository backendevaluationservice:latest --yes --output none || true
+      - az acr repository delete --name xaicontainerregistry --repository backendazurecog:latest --yes --output none || true
+      - az acr repository delete --name xaicontainerregistry --repository backendazureblob:latest --yes --output none || true
+
+      - docker compose build
+
+      - cd terraform/azure
+      - terraform init
+      - terraform apply -auto-approve
+
+  post_build:
+    commands:
+      - echo "Application deployed!"
+
+artifacts:
+  files:
+    - '**/*'
