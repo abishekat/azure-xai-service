@@ -69,10 +69,6 @@ phases:
       - docker tag backend-central xaicontainerregistry.azurecr.io/backendcentral:latest
       - docker push xairegist.azurecr.io/backendcentral:latest
 
-      - cd terraform/azure
-      - terraform init
-      - terraform apply -auto-approve
-
   post_build:
     commands:
       - echo "Application deployed!"
