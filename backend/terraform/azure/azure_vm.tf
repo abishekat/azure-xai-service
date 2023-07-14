@@ -125,6 +125,9 @@ data "template_file" "custom_script" {
     # Add your custom script commands here
     # For example:
     az login --service-principal --username ${var.azure_client_id} --password ${var.azure_password} --tenant ${var.azure_tenant_id}
+    az acr login --name xaicontainerregistry
+    docker pull xaicontainerregistry.azurecr.io/gradcam
+    docker run -d -p 5003:5003 xaicontainerregistry.azurecr.io/gradcam
 
     SCRIPT
 }
