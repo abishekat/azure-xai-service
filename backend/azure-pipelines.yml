@@ -52,7 +52,7 @@ phases:
 
       # Docker login
       - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
-      - - az acr login --name xaicontainerregistry
+      - az acr login --name xaicontainerregistry
 
   build:
     commands:
