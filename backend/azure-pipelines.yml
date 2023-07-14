@@ -66,6 +66,8 @@ phases:
       - az acr repository delete --name xaicontainerregistry --repository backendazureblob:latest --yes --output none || true
 
       - docker compose build
+      - docker tag backend-central xaicontainerregistry.azurecr.io/backendcentral:latest
+      - docker push xairegist.azurecr.io/backendcentral:latest
 
       - cd terraform/azure
       - terraform init
