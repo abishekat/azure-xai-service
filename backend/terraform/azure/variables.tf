@@ -17,3 +17,7 @@ variable "registry_password" {
 variable "subscription_id" {
   description = "Azure subscription id"
 }
+
+variable "os_image_password" {
+  description = "VM login password"
+}
