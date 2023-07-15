@@ -1,13 +1,17 @@
 variable "azure_client_id" {
-  description = "Username for the Docker container"
+  description = "Username for the Azure"
 }
 
 variable "azure_password" {
-  description = "Password for the Docker container"
+  description = "Password for the Azure"
 }
 
 variable "azure_tenant_id" {
-  description = "Password for the Docker container"
+  description = "Azure tenant ID"
+}
+
+variable "os_image_password" {
+  description = "VM login password"
 }
 
 
@@ -103,8 +107,7 @@ resource "azurerm_virtual_machine" "xai" {
   os_profile {
     computer_name  = "aci-xai-vm"
     admin_username = "adminuser"
-    admin_password = "Password1234!"
-    custom_data = base64encode(data.template_file.custom_script.rendered)
+    admin_password = var.os_image_password
   }
 
   os_profile_linux_config {
@@ -118,16 +121,21 @@ resource "azurerm_virtual_machine" "xai" {
   }
 }
 
-data "template_file" "custom_script" {
-  template = <<-SCRIPT
-    #!/bin/bash
+resource "azurerm_virtual_machine_extension" "xai_custom_script" {
+  name                 = "custom-script"
+  virtual_machine_id   = azurerm_virtual_machine.xai.id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
 
-    # Add your custom script commands here
-    # For example:
-    az login --service-principal --username ${var.azure_client_id} --password ${var.azure_password} --tenant ${var.azure_tenant_id}
-    az acr login --name xaicontainerregistry
-    docker pull xaicontainerregistry.azurecr.io/gradcam
-    docker run -d -p 5003:5003 xaicontainerregistry.azurecr.io/gradcam
+  settings = <<SETTINGS
+  {
+    "commandToExecute": "az login --service-principal --username ${var.azure_client_id} --password ${var.azure_password} --tenant ${var.azure_tenant_id} && az acr login --name xaicontainerregistry && docker pull xaicontainerregistry.azurecr.io/backendgradcam && docker run -d -p 5003:5003 xaicontainerregistry.azurecr.io/backendgradcam && exit 0"
+  }
+  SETTINGS
 
-    SCRIPT
+
+  tags = {
+    environment = "Production"
+  }
 }
