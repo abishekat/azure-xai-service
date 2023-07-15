@@ -37,7 +37,7 @@ resource "azurerm_container_group" "azureblob" {
   image_registry_credential {
     server   = "xaicontainerregistry.azurecr.io"
     username = "xaicontainerregistry"
-    password = ${var.registry_password}
+    password = var.registry_password
   }
 
   container {
@@ -64,7 +64,7 @@ resource "azurerm_container_group" "azurecog" {
   image_registry_credential {
     server   = "xaicontainerregistry.azurecr.io"
     username = "xaicontainerregistry"
-    password = ${var.registry_password}
+    password = var.registry_password
   }
 
   container {
@@ -91,7 +91,7 @@ resource "azurerm_container_group" "backendevaluationservice" {
   image_registry_credential {
     server   = "xaicontainerregistry.azurecr.io"
     username = "xaicontainerregistry"
-    password = ${var.registry_password}
+    password = var.registry_password
   }
 
   container {
@@ -118,7 +118,7 @@ resource "azurerm_container_group" "restnet50" {
   image_registry_credential {
     server   = "xaicontainerregistry.azurecr.io"
     username = "xaicontainerregistry"
-    password = ${var.registry_password}
+    password = var.registry_password
   }
 
   container {
