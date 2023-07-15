@@ -3,6 +3,9 @@ version: 0.2
 phases:
   install:
     commands:
+      - echo "Installing Azure CLI"
+      - pip install azure-cli
+
       - echo "Installing terraform"
       # Install Terraform
       - curl -O https://releases.hashicorp.com/terraform/1.5.2/terraform_1.5.2_linux_amd64.zip
@@ -10,12 +13,7 @@ phases:
       - sudo mv terraform /usr/local/bin/
       - terraform version
 
-      # Install Azure CLI
-      - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-      - az version
-      - az login --service-principal --username fea35a70-bfdd-4f07-a973-db574628886a --password PMo8Q~6cLxuGgY1L~j34pGM4HfrT92wcld4zmbgi --tenant 443731de-936c-4ced-86c9-4b34cf0111af
-
-      # Adding mongo connection string
+       # Adding mongo connection string
       - cd backend
       - MONGO_CONN_STR=$(aws ssm get-parameter --name mongo-dev --with-decryption --query "Parameter.Value" --output text)
       - echo "$MONGO_CONN_STR" > mongo.dev.conf
@@ -39,35 +37,43 @@ phases:
       - ls
       - cd ../../../../
 
+
   pre_build:
     commands:
       - echo "Executing pre-build commands..."
-      - az acr repository create --name xaicontainerregistry
-      - az acr repository show --name xaicontainerregistry --repository backendcentral || az acr repository create --name xaicontainerregistry --name backendcentral
-      - az acr repository show --name xaicontainerregistry --repository backendrestnet50 || az acr repository create --name xaicontainerregistry --name backendrestnet50
-      - az acr repository show --name xaicontainerregistry --repository backendgradcam || az acr repository create --name xaicontainerregistry --name backendgradcam
-      - az acr repository show --name xaicontainerregistry --repository backendevaluationservice || az acr repository create --name xaicontainerregistry --name backendevaluationservice
-      - az acr repository show --name xaicontainerregistry --repository backendazurecog || az acr repository create --name xaicontainerregistry --name backendazurecog
-      - az acr repository show --name xaicontainerregistry --repository backendazureblob || az acr repository create --name xaicontainerregistry --name backendazureblob
+      - az login --service-principal --username $AZURE_CLIENTID --password $AZURE_PASSWORD --tenant $AZURE_TENANTID
+    
+      - REPO_EXISTS=$(az acr repository show --name xaicontainerregistry --repository backendevaluationservice > /dev/null 2>&1; echo $?)
+      - if [ $REPO_EXISTS -eq 0 ]; then az acr repository show-tags --name xaicontainerregistry --repository backendevaluationservice --output tsv --query "length(@)" | (read -r LEN; if [ "$LEN" -gt 0 ]; then az acr repository delete --name xaicontainerregistry --image backendevaluationservice:latest --yes; fi); fi
 
-      # Docker login
+      - REPO_EXISTS=$(az acr repository show --name xaicontainerregistry --repository backendrestnet50 > /dev/null 2>&1; echo $?)
+      - if [ $REPO_EXISTS -eq 0 ]; then az acr repository show-tags --name xaicontainerregistry --repository backendrestnet50 --output tsv --query "length(@)" | (read -r LEN; if [ "$LEN" -gt 0 ]; then az acr repository delete --name xaicontainerregistry --image backendrestnet50:latest --yes; fi); fi
+
+      - REPO_EXISTS=$(az acr repository show --name xaicontainerregistry --repository backendazurecog > /dev/null 2>&1; echo $?)
+      - if [ $REPO_EXISTS -eq 0 ]; then az acr repository show-tags --name xaicontainerregistry --repository backendazurecog --output tsv --query "length(@)" | (read -r LEN; if [ "$LEN" -gt 0 ]; then az acr repository delete --name xaicontainerregistry --image backendazurecog:latest --yes; fi); fi
+
+      - REPO_EXISTS=$(az acr repository show --name xaicontainerregistry --repository backendazureblob > /dev/null 2>&1; echo $?)
+      - if [ $REPO_EXISTS -eq 0 ]; then az acr repository show-tags --name xaicontainerregistry --repository backendazureblob --output tsv --query "length(@)" | (read -r LEN; if [ "$LEN" -gt 0 ]; then az acr repository delete --name xaicontainerregistry --image backendazureblob:latest --yes; fi); fi
+
+      - REPO_EXISTS=$(az acr repository show --name xaicontainerregistry --repository backendazurecog > /dev/null 2>&1; echo $?)
+      - if [ $REPO_EXISTS -eq 0 ]; then az acr repository show-tags --name xaicontainerregistry --repository backendazurecog --output tsv --query "length(@)" | (read -r LEN; if [ "$LEN" -gt 0 ]; then az acr repository delete --name xaicontainerregistry --image backendazurecog:latest --yes; fi); fi
+      
       - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
       - az acr login --name xaicontainerregistry
 
   build:
     commands:
       - echo "Building the project..."
-      # Remove existing image in the repository if exists
-      - az acr repository delete --name xaicontainerregistry --repository backendcentral:latest --yes --output none || true
-      - az acr repository delete --name xaicontainerregistry --repository backendrestnet50:latest --yes --output none || true
-      - az acr repository delete --name xaicontainerregistry --repository backendgradcam:latest --yes --output none || true
-      - az acr repository delete --name xaicontainerregistry --repository backendevaluationservice:latest --yes --output none || true
-      - az acr repository delete --name xaicontainerregistry --repository backendazurecog:latest --yes --output none || true
-      - az acr repository delete --name xaicontainerregistry --repository backendazureblob:latest --yes --output none || true
-
       - docker compose build
-      - docker tag backend-central xaicontainerregistry.azurecr.io/backendcentral:latest
-      - docker push xairegist.azurecr.io/backendcentral:latest
+      - docker image ls
+      - docker tag backend-central xaicontainerregistry.azurecr.io/backendcentral
+      - docker push xaicontainerregistry.azurecr.io/backendcentral
+      - ls
+      
+      - cd terraform/azure
+      - terraform apply -var "azure_client_id=$AZURE_CLIENTID" -var "azure_password=$AZURE_PASSWORD" -var "azure_tenant_id=$AZURE_TENANTID" -var "os_image_password=$OS_IMAGE_PASSWORD" -var "subscription_id=$AZURE_SUBSCRIPTIONID" -var "registry_password=$REGISTRY_PASSWORD" --auto-approve
+
+
 
   post_build:
     commands:
