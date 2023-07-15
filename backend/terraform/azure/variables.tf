@@ -1,13 +1,13 @@
 variable "azure_client_id" {
-  description = "Username for the Docker container"
+  description = "Username for the Azure Service Profile"
 }
 
 variable "azure_password" {
-  description = "Password for the Docker container"
+  description = "Password for the Azure Service Profile"
 }
 
 variable "azure_tenant_id" {
-  description = "Password for the Docker container"
+  description = "Azure tenant ID"
 }
 
 variable "registry_password" {
