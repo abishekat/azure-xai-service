@@ -6,9 +6,15 @@ resource "azurerm_container_group" "backendcentral" {
   ip_address_type     = "Public"
   dns_name_label      = "aci-xai-backendcentral-dns"
 
+  image_registry_credential {
+    server   = "xaicontainerregistry.azurecr.io"
+    username = "xaicontainerregistry"
+    password = ${var.registry_password}
+  }
+
   container {
     name   = "backendcentral"
-    image  = "backendcentral.azurecr.io/backendcentral:latest"
+    image  = "xaicontainerregistry.azurecr.io/backendcentral:latest"
     cpu    = "1"
     memory = "10"
 
@@ -27,9 +33,15 @@ resource "azurerm_container_group" "azureblob" {
   ip_address_type     = "Public"
   dns_name_label      = "aci-xai-azureblob-dns"
 
+  image_registry_credential {
+    server   = "xaicontainerregistry.azurecr.io"
+    username = "xaicontainerregistry"
+    password = ${var.registry_password}
+  }
+
   container {
     name   = "azureblob"
-    image  = "azureblob.azurecr.io/azureblob:latest"
+    image  = "xaicontainerregistry.azurecr.io/azureblob:latest"
     cpu    = "1"
     memory = "10"
 
@@ -48,9 +60,15 @@ resource "azurerm_container_group" "azurecog" {
   ip_address_type     = "Public"
   dns_name_label      = "aci-xai-azurecog-dns"
 
+  image_registry_credential {
+    server   = "xaicontainerregistry.azurecr.io"
+    username = "xaicontainerregistry"
+    password = ${var.registry_password}
+  }
+
   container {
     name   = "azurecog"
-    image  = "azurecog.azurecr.io/azurecog:latest"
+    image  = "xaicontainerregistry.azurecr.io/azurecog:latest"
     cpu    = "1"
     memory = "10"
 
@@ -70,14 +88,14 @@ resource "azurerm_container_group" "backendevaluationservice" {
   dns_name_label      = "aci-xai-backendevaluationservice-dns"
 
   image_registry_credential {
-    server   = "backendevaluationservice.azurecr.io"
-    username = "backendevaluationservice"
-    password = "sXqoMavceAtIngmLPDAlSQBE1koGy8RPAh0b1IgURk+ACRDt2Ynt"
+    server   = "xaicontainerregistry.azurecr.io"
+    username = "xaicontainerregistry"
+    password = ${var.registry_password}
   }
 
   container {
     name   = "backendevaluationservice"
-    image  = "backendevaluationservice.azurecr.io/backendevaluationservice:latest"
+    image  = "xaicontainerregistry.azurecr.io/backendevaluationservice:latest"
     cpu    = "1"
     memory = "10"
 
@@ -96,9 +114,15 @@ resource "azurerm_container_group" "restnet50" {
   ip_address_type     = "Public"
   dns_name_label      = "aci-xai-restnet50-dns"
 
+  image_registry_credential {
+    server   = "xaicontainerregistry.azurecr.io"
+    username = "xaicontainerregistry"
+    password = ${var.registry_password}
+  }
+
   container {
     name   = "restnet50"
-    image  = "restnet50.azurecr.io/restnet50:latest"
+    image  = "xaicontainerregistry.azurecr.io/restnet50:latest"
     cpu    = "1"
     memory = "10"
 
