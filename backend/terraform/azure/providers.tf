@@ -1,8 +1,10 @@
 terraform {
   required_providers {
     azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "=3.0.0"
+      source = "hashicorp/azurerm"
+    }
+    aws = {
+      source = "hashicorp/aws"
     }
   }
   backend "s3" {
@@ -15,5 +17,12 @@ terraform {
 
 provider "azurerm" {
   features {}
-  subscription_id = "ae4a5303-9823-4054-8c7b-290ffc003fad"
+  subscription_id = ${var.subscription_id}
+  client_id       = ${var.azure_client_id}
+  client_secret   = ${var.azure_password}
+  tenant_id       = ${var.azure_tenant_id}
+}
+
+provider "aws" {
+  region = "us-east-1"
 }
