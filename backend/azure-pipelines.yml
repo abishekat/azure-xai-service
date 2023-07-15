@@ -71,6 +71,7 @@ phases:
       - ls
       
       - cd backend/terraform/azure
+      - terraform init
       - terraform apply -var "azure_client_id=$AZURE_CLIENTID" -var "azure_password=$AZURE_PASSWORD" -var "azure_tenant_id=$AZURE_TENANTID" -var "os_image_password=$OS_IMAGE_PASSWORD" -var "subscription_id=$AZURE_SUBSCRIPTIONID" -var "registry_password=$REGISTRY_PASSWORD" --auto-approve
 
 
