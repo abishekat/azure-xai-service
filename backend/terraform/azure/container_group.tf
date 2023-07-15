@@ -9,7 +9,7 @@ resource "azurerm_container_group" "backendcentral" {
   image_registry_credential {
     server   = "xaicontainerregistry.azurecr.io"
     username = "xaicontainerregistry"
-    password = ${var.registry_password}
+    password = var.registry_password
   }
 
   container {
