@@ -1,20 +1,3 @@
-variable "azure_client_id" {
-  description = "Username for the Azure"
-}
-
-variable "azure_password" {
-  description = "Password for the Azure"
-}
-
-variable "azure_tenant_id" {
-  description = "Azure tenant ID"
-}
-
-variable "os_image_password" {
-  description = "VM login password"
-}
-
-
 resource "azurerm_virtual_network" "xai" {
   name                = "aci-xai-vnet"
   address_space       = ["10.0.0.0/16"]
