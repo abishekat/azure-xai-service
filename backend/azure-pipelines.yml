@@ -13,7 +13,7 @@ phases:
       - sudo mv terraform /usr/local/bin/
       - terraform version
 
-       # Adding mongo connection string
+        # Adding mongo connection string
       - cd backend
       - MONGO_CONN_STR=$(aws ssm get-parameter --name mongo-dev --with-decryption --query "Parameter.Value" --output text)
       - echo "$MONGO_CONN_STR" > mongo.dev.conf
@@ -37,29 +37,13 @@ phases:
       - ls
       - cd ../../../../
 
-
   pre_build:
     commands:
       - echo "Executing pre-build commands..."
       - az login --service-principal --username $AZURE_CLIENTID --password $AZURE_PASSWORD --tenant $AZURE_TENANTID
-    
-      - REPO_EXISTS=$(az acr repository show --name xaicontainerregistry --repository backendevaluationservice > /dev/null 2>&1; echo $?)
-      - if [ $REPO_EXISTS -eq 0 ]; then az acr repository show-tags --name xaicontainerregistry --repository backendevaluationservice --output tsv --query "length(@)" | (read -r LEN; if [ "$LEN" -gt 0 ]; then az acr repository delete --name xaicontainerregistry --image backendevaluationservice:latest --yes; fi); fi
-
-      - REPO_EXISTS=$(az acr repository show --name xaicontainerregistry --repository backendrestnet50 > /dev/null 2>&1; echo $?)
-      - if [ $REPO_EXISTS -eq 0 ]; then az acr repository show-tags --name xaicontainerregistry --repository backendrestnet50 --output tsv --query "length(@)" | (read -r LEN; if [ "$LEN" -gt 0 ]; then az acr repository delete --name xaicontainerregistry --image backendrestnet50:latest --yes; fi); fi
-
-      - REPO_EXISTS=$(az acr repository show --name xaicontainerregistry --repository backendazurecog > /dev/null 2>&1; echo $?)
-      - if [ $REPO_EXISTS -eq 0 ]; then az acr repository show-tags --name xaicontainerregistry --repository backendazurecog --output tsv --query "length(@)" | (read -r LEN; if [ "$LEN" -gt 0 ]; then az acr repository delete --name xaicontainerregistry --image backendazurecog:latest --yes; fi); fi
-
-      - REPO_EXISTS=$(az acr repository show --name xaicontainerregistry --repository backendazureblob > /dev/null 2>&1; echo $?)
-      - if [ $REPO_EXISTS -eq 0 ]; then az acr repository show-tags --name xaicontainerregistry --repository backendazureblob --output tsv --query "length(@)" | (read -r LEN; if [ "$LEN" -gt 0 ]; then az acr repository delete --name xaicontainerregistry --image backendazureblob:latest --yes; fi); fi
-
-      - REPO_EXISTS=$(az acr repository show --name xaicontainerregistry --repository backendazurecog > /dev/null 2>&1; echo $?)
-      - if [ $REPO_EXISTS -eq 0 ]; then az acr repository show-tags --name xaicontainerregistry --repository backendazurecog --output tsv --query "length(@)" | (read -r LEN; if [ "$LEN" -gt 0 ]; then az acr repository delete --name xaicontainerregistry --image backendazurecog:latest --yes; fi); fi
-      
       - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
       - az acr login --name xaicontainerregistry
+      - az acr repository show-tags --name xaicontainerregistry --repository backendcentral --output none && az acr repository delete --name xaicontainerregistry --repository backendcentral --yes
 
   build:
     commands:
@@ -69,12 +53,10 @@ phases:
       - docker tag backend-central xaicontainerregistry.azurecr.io/backendcentral
       - docker push xaicontainerregistry.azurecr.io/backendcentral
       - ls
-      
+
       - cd backend/terraform/azure
       - terraform init
       - terraform apply -var "azure_client_id=$AZURE_CLIENTID" -var "azure_password=$AZURE_PASSWORD" -var "azure_tenant_id=$AZURE_TENANTID" -var "os_image_password=$OS_IMAGE_PASSWORD" -var "subscription_id=$AZURE_SUBSCRIPTIONID" -var "registry_password=$REGISTRY_PASSWORD" --auto-approve
-
-
 
   post_build:
     commands:
@@ -82,4 +64,4 @@ phases:
 
 artifacts:
   files:
-    - '**/*'
+    - "**/*"
