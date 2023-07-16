@@ -1,0 +1,48 @@
+trigger:
+  branches:
+    exclude:
+      - '*'
+
+pr:
+  branches:
+    include:
+      - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
+
+
+- script: |
+    az account show
+    echo "Installing Terraform"
+    wget https://releases.hashicorp.com/terraform/1.5.2/terraform_1.5.2_linux_amd64.zip
+    unzip terraform_1.5.2_linux_amd64.zip
+    sudo mv terraform /usr/local/bin/
+    terraform version
+  displayName: 'Install Terraform'
+
+- script: |
+    echo "Executing pre-build commands..."
+    az login --service-principal --username $AZURE_CLIENTID --password $AZURE_PASSWORD --tenant $AZURE_TENANTID
+    echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+    az acr login --name xaicontainerregistry
+    az acr repository show-tags --name xaicontainerregistry --repository backendcentral --output none && az acr repository delete --name xaicontainerregistry --repository backendcentral --yes
+  displayName: 'Pre-build commands'
+
+- script: |
+    echo "Building the project..."
+    ls
+    cd backend/terraform/azure
+    # terraform init
+    # terraform apply -var "azure_client_id=$AZURE_CLIENTID" -var "azure_password=$AZURE_PASSWORD" -var "azure_tenant_id=$AZURE_TENANTID" -var "os_image_password=$OS_IMAGE_PASSWORD" -var "subscription_id=$AZURE_SUBSCRIPTIONID" -var "registry_password=$REGISTRY_PASSWORD" --auto-approve
+  displayName: 'Build'
+
+- script: |
+    echo "Application deployed!"
+  displayName: 'Post-build'
