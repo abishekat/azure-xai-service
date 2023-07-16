@@ -17,13 +17,9 @@ steps:
     versionSpec: '3.x'
     addToPath: true
 
-
-- script: |
-    az account show
-   
-  displayName: 'Install Terraform'
-
-
-- script: |
-    echo "Application deployed!"
-  displayName: 'Post-build'
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'sp-xai-pipeline'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az account show'
