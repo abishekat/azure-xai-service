@@ -10,7 +10,8 @@ resource "aws_launch_configuration" "ecs_launch_config" {
     volume_size           = 100
     delete_on_termination = true
   }
-  
+
+
   lifecycle {
     create_before_destroy = true
   }
