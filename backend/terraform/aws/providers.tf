@@ -9,7 +9,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket         = "xai-tfstate"
+    bucket         = "almusiqaa-login-fronted"
     key            = "state-file/terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true

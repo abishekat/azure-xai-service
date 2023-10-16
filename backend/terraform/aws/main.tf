@@ -1,7 +1,7 @@
 resource "aws_launch_configuration" "ecs_launch_config" {
   name                 = "ecs-launch-config"
-  image_id             = "ami-0817f4be8d3c41be4"
-  instance_type        = "g3.4xlarge"
+  image_id             = "ami-0f17d6a8a3d746af6"
+  instance_type        = "t2.micro"
   iam_instance_profile = aws_iam_instance_profile.ecs_instance_profile.name
   security_groups      = [aws_security_group.ecs_security_group.id]
   key_name             = "ec2-test"
