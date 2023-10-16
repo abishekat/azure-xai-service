@@ -11,13 +11,13 @@ services:
     volumes:
       - mongo:/data
 
-  # azure_blob:
-  #   build:
-  #     dockerfile: ./db_service/azure_blob/Dockerfile
-  #   ports:
-  #     - 5009:5009
-  #   volumes:
-  #     - xai_fw_volumes:/db_service/azure_blob/azure_blob_storage
+  azure_blob:
+    build:
+      dockerfile: ./db_service/azure_blob/Dockerfile
+    ports:
+      - 5009:5009
+    volumes:
+      - xai_fw_volumes:/db_service/azure_blob/azure_blob_storage
 
   central:
     build:
