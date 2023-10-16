@@ -11,13 +11,13 @@ services:
     volumes:
       - mongo:/data
 
-  azure_blob:
-    build:
-      dockerfile: ./db_service/azure_blob/Dockerfile
-    ports:
-      - 5009:5009
-    volumes:
-      - xai_fw_volumes:/db_service/azure_blob/azure_blob_storage
+  # azure_blob:
+  #   build:
+  #     dockerfile: ./db_service/azure_blob/Dockerfile
+  #   ports:
+  #     - 5009:5009
+  #   volumes:
+  #     - xai_fw_volumes:/db_service/azure_blob/azure_blob_storage
 
   central:
     build:
@@ -30,13 +30,13 @@ services:
       - mongo
       - azure_blob
 
-  model_service_rn50_1:
-    build:
-      dockerfile: ./model_service/resnet50/Dockerfile
-    ports:
-      - 5001:5001
-    volumes:
-      - xai_fw_volumes:/model_service/resnet50/resnet50_storage
+  # model_service_rn50_1:
+  #   build:
+  #     dockerfile: ./model_service/resnet50/Dockerfile
+  #   ports:
+  #     - 5001:5001
+  #   volumes:
+  #     - xai_fw_volumes:/model_service/resnet50/resnet50_storage
 
   # xai_service_pytorch_cam:
   #     # platform: linux/amd64
